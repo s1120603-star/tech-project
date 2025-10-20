@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>我的 Linkpage</title>
+  <meta name="description" content="高三 | 美妝與時尚 - 個人連結頁" />
+
+  <style>
+    :root{
+      --bg-1: linear-gradient(135deg,#fbe4ec 0%, #ffd1e6 45%, #b7c7ff 100%);
+      --bg-2: linear-gradient(135deg,#0f1724 0%, #1f2940 60%, #3a3f8f 100%);
+      --card-bg: rgba(255,255,255,0.12);
+      --text: #111;
+      --muted: rgba(0,0,0,0.6);
+      --accent: #ff6fa3;
+      --btn-radius: 14px;
+      --glass-blur: 8px;
+    }
+
+    /* 深色主題覆蓋 */
+    .theme-dark{
+      --bg-1: linear-gradient(135deg,#0f1724 0%, #1f2940 50%, #2b3a74 100%);
+      --bg-2: linear-gradient(135deg,#0b1220 0%, #132033 60%, #1b2a4a 100%);
+      --card-bg: rgba(255,255,255,0.06);
+      --text: #f7f7fb;
+      --muted: rgba(255,255,255,0.75);
+      --accent: #7cc4ff;
+    }
+
+    html,body{
+      height:100%;
+      margin:0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans CJK TC", "PingFang TC", "Heiti TC", "Microsoft JhengHei", sans-serif;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      background: var(--bg-1);
+      color:var(--text);
+      transition: background 400ms ease, color 300ms ease;
+    }
+
+    /* 中心容器 */
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:40px 20px;
+      box-sizing:border-box;
+      position:relative;
+      overflow:hidden;
+    }
+
+    /* 漂浮圖形 */
+    .bg-shapes{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:0;
+    }
+    .blob{
+      position:absolute;
+      filter: blur(30px);
+      opacity:0.55;
+      transform: translate3d(0,0,0);
+      transition: transform 8s linear;
+    }
+    .blob.b1{ width:380px;height:380px; left:-80px; top:-80px; background:var(--accent); }
+    .blob.b2{ width:260px;height:260px; right:-40px; bottom:-40px; background:#ffd08a; }
+    .blob.b3{ width:200px;height:200px; left:50%; top:10%; transform:translateX(-10%); background:#c8ffd6;}
+
+    /* 名片卡片 */
+    .card{
+      position:relative;
+      z-index:2;
+      width:100%;
+      max-width:460px;
+      padding:28px;
+      border-radius:20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.25), rgba(255,255,255,0.12));
+      backdrop-filter: blur(var(--glass-blur));
+      box-shadow: 0 10px 30px rgba(2,6,23,0.12);
+      text-align:center;
+      box-sizing:border-box;
+      transition: transform 300ms ease, box-shadow 300ms ease;
+    }
+    .card:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(2,6,23,0.18); }
+
+    /* 頭像 */
+    .avatar{
+      width:110px;
+      height:110px;
+      margin: 0 auto 12px;
+      border-radius:50%;
+      overflow:hidden;
+      border:4px solid rgba(255,255,255,0.35);
+      display:inline-block;
+      background:linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      cursor:pointer;
+      transition: transform 220ms ease;
+    }
+    .avatar img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .avatar:active{ transform: scale(0.98); }
+
+    h1 {
+      font-size:20px;
+      margin:8px 0 4px;
+      letter-spacing:0.2px;
+    }
+    p.lead{
+      margin:0 0 18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* 按鈕列表 */
+    .links{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      margin-top:6px;
+    }
+
+    .link-btn{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      padding:12px 16px;
+      border-radius:var(--btn-radius);
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      color:var(--text);
+      font-weight:600;
+      box-shadow: inset 0 -2px 0 rgba(0,0,0,0.06);
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+    .link-btn:hover{ transform: translateY(-4px); box-shadow: 0 8px 20px rgba(2,6,23,0.08); }
+    .link-icon{
+      width:34px;height:34px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;
+      background:rgba(255,255,255,0.08); flex:0 0 34px;
+    }
+    .small{ font-size:13px; color:var(--muted); font-weight:500; }
+
+    /* 排列底部小列 */
+    .meta{
+      display:flex;
+      justify-content:space-between;
+      margin-top:16px;
+      gap:10px;
+      align-items:center;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .theme-toggle{
+      margin-left:auto;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      cursor:pointer;
+      user-select:none;
+    }
+
+    /* 頭像放大遮罩 */
+    .overlay{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background: rgba(0,0,0,0.6);
+      z-index:999;
+    }
+    .overlay.show{ display:flex; }
+    .overlay img{ width:clamp(200px,50vw,540px); height:auto; border-radius:12px; box-shadow: 0 20px 60px rgba(0,0,0,0.6); }
+
+    /* RWD */
+    @media (max-width:480px){
+      .card{ padding:20px; border-radius:16px; }
+      .avatar{ width:92px; height:92px; }
+      h1{ font-size:18px; }
+      .link-btn{ padding:11px 12px; }
+      .link-icon{ width:30px; height:30px; border-radius:8px; }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap" id="pageRoot">
+    <div class="bg-shapes" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3"></div>
+    </div>
+
+    <main class="card" role="main" aria-labelledby="name">
+      <!-- 圓形頭像（替換 src） -->
+      <div class="avatar" id="avatarBtn" title="點擊放大">
+        <!-- 替換下面 data-src 或 src 為你的照片 base64 或外部連結 -->
+        <img id="avatarImg" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="個人頭像">
+      </div>
+
+      <h1 id="name">你的名字 | 高三生</h1>
+      <p class="lead">熱愛美妝、時尚穿搭 ✨ 分享妝容與穿搭靈感</p>
+
+      <div class="links" aria-label="社群連結">
+        <!-- 修改 href 為你的實際連結 -->
+        <a class="link-btn" href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon" aria-hidden="true">
+            <!-- github svg -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M12 2C6.48 2 2 6.58 2 12.18c0 4.52 2.87 8.36 6.84 9.71.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.61-3.37-1.36-3.37-1.36-.45-1.16-1.11-1.47-1.11-1.47-.91-.63.07-.62.07-.62 1 .07 1.53 1.04 1.53 1.04.9 1.56 2.36 1.11 2.94.85.09-.66.35-1.11.64-1.37-2.22-.26-4.56-1.13-4.56-5.04 0-1.11.39-2.02 1.03-2.73-.1-.26-.45-1.31.1-2.73 0 0 .84-.27 2.75 1.04A9.2 9.2 0 0 1 12 6.8c.85.004 1.71.115 2.51.34 1.9-1.31 2.73-1.04 2.73-1.04.55 1.42.2 2.47.1 2.73.64.71 1.03 1.62 1.03 2.73 0 3.92-2.34 4.77-4.57 5.03.36.31.68.92.68 1.86 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48A10.2 10.2 0 0 0 22 12.18C22 6.58 17.52 2 12 2z" fill="currentColor"/>
+            </svg>
+          </span>
+          GitHub
+          <span class="small">程式作品 / 專案</span>
+        </a>
+
+        <a class="link-btn" href="mailto:youremail@example.com" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon" aria-hidden="true">
+            <!-- mail svg -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z" fill="currentColor"/>
+            </svg>
+          </span>
+          Email
+          <span class="small">聯絡我</span>
+        </a>
+
+        <a class="link-btn" href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer">
+          <span class="link-icon" aria-hidden="true">
+            <!-- linkedin svg -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M6.94 6.5C6.94 7.6 6.08 8.4 4.92 8.4 3.77 8.4 2.88 7.6 2.88 6.5 2.88 5.4 3.77 4.6 4.92 4.6c1.16 0 2.02.8 2.02 1.9zM3 9.8h3.84V20H3V9.8zM9.6 9.8h3.68v1.4h.05c.51-.98 1.76-2 3.62-2 3.87 0 4.58 2.55 4.58 5.86V20h-3.84v-4.6c0-1.1-.02-2.5-1.53-2.5-1.53
+
